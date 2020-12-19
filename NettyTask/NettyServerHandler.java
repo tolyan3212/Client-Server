@@ -7,12 +7,6 @@ import io.netty.channel.*;
 import io.netty.util.*;  
 
 public class NettyServerHandler extends SimpleChannelInboundHandler<String>{
-    String username;
-    boolean registered = false;
-    static final Set<String> users = new TreeSet<String>();
-    static final List<String> messages = new ArrayList<String>();
-    static final List<Channel> channels = new ArrayList<Channel>();
-
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
