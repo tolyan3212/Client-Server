@@ -43,10 +43,10 @@ public class Server {
                 System.out.println("Total threads: " + count);
                 clientsMap.put(count, clientSocket);
                 try {
-                    clientsInputs.put(count, new BufferedReader(
-                                                                new InputStreamReader(clientSocket.getInputStream())));
-                    clientsOutputs.put(count, new PrintWriter(
-                                                              clientSocket.getOutputStream(), true));
+                    clientsInputs.put(count, new BufferedReader
+                                      (new InputStreamReader(clientSocket.getInputStream())));
+                    clientsOutputs.put(count, new PrintWriter
+                                       (clientSocket.getOutputStream(), true));
                     
                     
                 }
@@ -67,41 +67,6 @@ public class Server {
         }
         int portNumber = Integer.parseInt(args[0]);
         Server s = new Server(portNumber);
-    }
-
-    public static String getResponse(String request) {
-        try {
-            String line1 = "";
-            String line2 = "";
-            char o = '+';
-            String operations = "+-*/";
-            for (int i = 0; i < request.length(); i++) {
-                if (operations.indexOf(request.charAt(i)) == -1) {
-                    if (request.charAt(i) != ' ')
-                        line1 += request.charAt(i);
-                }
-                else {
-                    o = request.charAt(i);
-                    for (int j  = i+1; j < request.length(); j++) {
-                        if (request.charAt(j) != ' ')
-                            line2 += request.charAt(j);
-                    }
-                    break;
-                }
-            }
-            int a = Integer.parseInt(line1);
-            int b = Integer.parseInt(line2);
-            int res = 0;
-            if (o == '+') res = a + b;
-            else if (o == '-') res = a-b;
-            else if (o == '*') res = a*b;
-            else if (o == '/') res = a/b;
-            return Integer.toString(res);
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-            return "Error";
-        }
     }
 
     static class ClientsChecker implements Runnable {
@@ -147,14 +112,48 @@ public class Server {
                 if (t != null) {
                     try {
                         clientsOutputs.get(t.getId())
-                            .println(server.getResponse(t.getRequest()));
+                            .println(getResponse(t.getRequest()));
                     }
                     catch(Exception e) {
                         System.out.println(e.getMessage());
                     }
                 }
             }
-        }        
+        }
+        String getResponse(String request) {
+            try {
+                String line1 = "";
+                String line2 = "";
+                char o = '+';
+                String operations = "+-*/";
+                for (int i = 0; i < request.length(); i++) {
+                    if (operations.indexOf(request.charAt(i)) == -1) {
+                        if (request.charAt(i) != ' ')
+                            line1 += request.charAt(i);
+                    }
+                    else {
+                        o = request.charAt(i);
+                        for (int j  = i+1; j < request.length(); j++) {
+                            if (request.charAt(j) != ' ')
+                                line2 += request.charAt(j);
+                        }
+                        break;
+                    }
+                }
+                int a = Integer.parseInt(line1);
+                int b = Integer.parseInt(line2);
+                int res = 0;
+                if (o == '+') res = a + b;
+                else if (o == '-') res = a-b;
+                else if (o == '*') res = a*b;
+                else if (o == '/') res = a/b;
+                return Integer.toString(res);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+                return "Error";
+            }
+        }
     }
     
     static class CalcExecutor implements Runnable {

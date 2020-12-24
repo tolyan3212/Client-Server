@@ -6,7 +6,7 @@ public class Client {
          
         if (args.length != 2) {
             System.err.println(
-                "Usage: java EchoClient <host name> <port number>");
+                "Usage: java Client <host name> <port number>");
             System.exit(1);
         }
  
