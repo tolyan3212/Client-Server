@@ -19,7 +19,7 @@ public class NioServer {
             SelectionKey selectionKey = socket.register(selector, ops, null);
 
             ByteBuffer buffer = ByteBuffer.allocate(256);
-
+            System.out.println("Waiting for clients...");
             while (true) {
                 selector.select();
                 Set<SelectionKey> selectedKeys = selector.selectedKeys();
@@ -68,7 +68,6 @@ public class NioServer {
     }
 
     public static void main(String[] args) throws IOException {
-        
         if (args.length != 1) {
             System.err.println("Usage: java NioServer <port number>");
             System.exit(1);
