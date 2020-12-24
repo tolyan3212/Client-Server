@@ -35,14 +35,13 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String>{
                 registered = true;
                 username = s;
                 for (String m : messages) {
-                    ctx.writeAndFlush(m + "\r\n");
+                    ctx.writeAndFlush(m);
                 }
                 sendToAllClients(s + " is in the chat!\r\n");
             }
         }
         else {
             String m = "[" + username + "]:" + s;
-            messages.add(m);
             sendToAllClients(m + "\r\n");
         }
     }
@@ -52,7 +51,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String>{
         users.remove(username);
         channels.remove(ctx.channel());
         sendToAllClients("User " + username
-                         + " left the chat\r\n");
+                         + " has left the chat\r\n");
     }
   
     @Override
@@ -62,6 +61,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String>{
     }
 
     private void sendToAllClients(String message) {
+        messages.add(message);
         for (Channel c : channels) {
             c.writeAndFlush(message);
         }
