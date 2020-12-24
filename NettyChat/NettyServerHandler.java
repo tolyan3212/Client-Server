@@ -16,7 +16,6 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String>{
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        channels.add(ctx.channel());
         ChannelFuture cf = ctx.writeAndFlush("Enter username:\r\n");
         if (!cf.isSuccess()) {
             System.out.println("failed: " + cf.cause());
@@ -31,6 +30,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String>{
                 ctx.writeAndFlush("This name is already taken, choose another one:\r\n");
             }
             else {
+                channels.add(ctx.channel());
                 users.add(s);
                 registered = true;
                 username = s;
