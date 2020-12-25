@@ -22,7 +22,6 @@ public final class NettyClient {
             Bootstrap b = new Bootstrap();
             b.group(group)
                 .channel(NioSocketChannel.class)
-                .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
@@ -43,7 +42,7 @@ public final class NettyClient {
             while (true) {
                 String line = in.readLine();
                 if (line.trim().equals("/exit")) {
-                    System.out.println("Exit!");
+                    System.out.println("Exiting!");
                     break;
                 }
                 ChannelFuture cf = channel.writeAndFlush(line + "\r\n");

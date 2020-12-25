@@ -11,7 +11,6 @@ import io.netty.handler.ssl.util.*;
 
 public class NettyServer
 {
-    static final boolean SSL = System.getProperty("ssl") != null;
     static final int PORT = Integer.parseInt(System.getProperty("port", "1234"));
   
     public static void main(String[] args) throws Exception {
@@ -22,7 +21,6 @@ public class NettyServer
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG, 100)
                 .handler(new LoggingHandler(LogLevel.INFO))
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
